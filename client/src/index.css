@@ -1,0 +1,247 @@
+@import 'tailwindcss';
+@import '@heroui/styles';
+
+/* ---------------------------------------------------------------------------
+   Market-dashboard theme layer.
+
+   Near-black canvas, flat bordered cards, one indigo accent and a reserved
+   green/red status pair — the language of a live data terminal, set in Inter.
+
+   The token blocks are deliberately unlayered: HeroUI ships its own values inside
+   @layer base, and unlayered rules beat layered ones whatever the order. Light is
+   declared first so the equally-specific dark selector still wins.
+   --------------------------------------------------------------------------- */
+
+@theme {
+  /* Inter throughout; the system stack only covers the swap-in gap */
+  --font-sans:
+    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui,
+    'Helvetica Neue', Arial, sans-serif;
+}
+
+@theme inline {
+  --color-tile: var(--tile);
+}
+
+:root,
+[data-theme='light'] {
+  /* 8px base: cards land on 8-12px, pills on full round */
+  --radius: 0.5rem;
+  --field-radius: calc(var(--radius) * 1.5);
+
+  --background: #f8fafd;
+  --surface: #ffffff;
+  --surface-secondary: #eff2f5;
+  --surface-tertiary: #e2e7ee;
+  --overlay: #ffffff;
+  /* Header stat tiles: flat, borderless, plain surface in light */
+  --tile: var(--surface);
+
+  /* Form fields read as flat bordered panels, not HeroUI's lifted default.
+     Theme-agnostic, so these only need declaring once. */
+  --field-background: var(--surface);
+  --field-border: var(--border);
+  --field-border-width: 1px;
+  --field-shadow: 0 0 0 0 transparent inset;
+
+  --foreground: #0d1421;
+  --muted: #616e85;
+  --default: #eff2f5;
+  --default-foreground: #0d1421;
+  --border: #e3e8ef;
+  --separator: #eef1f5;
+  --segment: #ffffff;
+  --segment-foreground: #0d1421;
+
+  --accent: #3861fb;
+  --accent-foreground: #ffffff;
+  --success: #16a35f;
+  --success-foreground: #ffffff;
+  --warning: #d99000;
+  --warning-foreground: #ffffff;
+  --danger: #d92d43;
+  --danger-foreground: #ffffff;
+
+  /* Categorical slots, light steps. Order is the CVD-safety mechanism: the
+     legend, the mix bars and the map all read fuels in this sequence. */
+  --fuel-solar: #eda100;
+  --fuel-wind: #1baf7a;
+  --fuel-hydro: #2a78d6;
+  --fuel-gas: #eb6834;
+  --fuel-nuclear: #4a3aa7;
+  --fuel-battery: #e87ba4;
+
+  /* Recessive one-step-off-surface gray for gridlines and axis rules */
+  --grid: #e6eaf0;
+
+  --surface-shadow:
+    0 1px 2px rgba(13, 20, 33, 0.04), 0 4px 12px rgba(13, 20, 33, 0.06);
+  --overlay-shadow:
+    0 4px 12px rgba(13, 20, 33, 0.08), 0 16px 40px rgba(13, 20, 33, 0.12);
+}
+
+.dark,
+[data-theme='dark'] {
+  --background: #0b0e14;
+  --surface: #181b23;
+  --surface-secondary: #20242f;
+  --surface-tertiary: #2a2f3d;
+  --overlay: #1a1e27;
+  /* One step up from the surface, so borderless tiles still lift off the page */
+  --tile: var(--surface-secondary);
+
+  --foreground: #eaeef5;
+  --muted: #8b93a7;
+  --default: #20242f;
+  --default-foreground: #eaeef5;
+  --border: #262b38;
+  --separator: #1f2430;
+  --segment: #2e3444;
+  --segment-foreground: #eaeef5;
+
+  --accent: #4d7cfe;
+  --accent-foreground: #ffffff;
+  --success: #16c784;
+  --success-foreground: #06130d;
+  --warning: #f0b90b;
+  --warning-foreground: #140f01;
+  --danger: #ea3943;
+  --danger-foreground: #ffffff;
+
+  /* Same six hues, stepped for the dark surface — not an automatic flip */
+  --fuel-solar: #c98500;
+  --fuel-wind: #199e70;
+  --fuel-hydro: #3987e5;
+  --fuel-gas: #d95926;
+  --fuel-nuclear: #9085e9;
+  --fuel-battery: #d55181;
+
+  --grid: #2b3242;
+
+  --surface-shadow: 0 0 0 0 transparent;
+  --overlay-shadow: 0 16px 48px rgba(0, 0, 0, 0.55);
+  --backdrop: rgba(6, 8, 13, 0.6);
+}
+
+@layer components {
+  /* ---- Segmented control (Tabs) -----------------------------------------
+     A 2px-inset track with a lighter knob, as on the range switchers. */
+  .tabs {
+    @apply gap-0;
+  }
+  .tabs__list-container {
+    @apply rounded-lg bg-surface-secondary;
+  }
+  .tabs__list {
+    @apply p-0.5;
+  }
+  .tabs__tab {
+    @apply h-7 rounded-md px-3 text-[12px] font-medium;
+  }
+  .tabs__tab[data-selected='true'] {
+    @apply font-semibold;
+  }
+  .tabs__indicator {
+    @apply rounded-md bg-segment shadow-none;
+  }
+  .dark .tabs__indicator {
+    @apply bg-segment;
+  }
+
+  /* ---- Plant list (ListBox) ----------------------------------------------
+     Flat rows straight on the sidebar ground: a quiet fill on hover and an
+     accent wash for the open plant. */
+  .plant-list {
+    @apply p-1.5;
+  }
+  .plant-list > * + * {
+    @apply mt-0.5;
+  }
+  .plant-list .list-box-item {
+    @apply min-h-0 gap-3 rounded-lg px-2.5 py-2;
+  }
+  @media (hover: hover) {
+    .plant-list .list-box-item:hover,
+    .plant-list .list-box-item[data-hovered='true'] {
+      @apply bg-surface-secondary;
+    }
+  }
+  .plant-list .list-box-item[data-selected='true'] {
+    @apply bg-accent-soft;
+  }
+
+  /* ---- Segmented control (ToggleButtonGroup) -----------------------------
+     The Tabs track and knob, for single-choice filters that switch no panel.
+     First/last-child selectors are listed to out-rank the group's pill ends. */
+  .segmented {
+    @apply rounded-lg bg-surface-secondary p-0.5;
+  }
+  .segmented .toggle-button,
+  .segmented .toggle-button:first-child,
+  .segmented .toggle-button:last-child {
+    --toggle-button-bg: transparent;
+    --toggle-button-bg-hover: transparent;
+    --toggle-button-bg-pressed: transparent;
+    --toggle-button-fg: var(--muted);
+    --toggle-button-bg-selected: var(--segment);
+    --toggle-button-bg-selected-hover: var(--segment);
+    --toggle-button-bg-selected-pressed: var(--segment);
+    --toggle-button-fg-selected: var(--segment-foreground);
+    @apply h-7 rounded-md px-3 text-[12px] font-medium;
+  }
+  .segmented .toggle-button[data-selected='true'] {
+    @apply font-semibold;
+  }
+
+  /* ---- Range slider ------------------------------------------------------
+     A slim rail with a ring knob, sized for a stack of filters rather than
+     HeroUI's full-height capsule. React Aria centres each thumb with
+     translate(-50%, -50%), so only the sizes change; the rail's transparent
+     side borders stay at half the knob width so the ends still line up. */
+  .range-slider[data-orientation='horizontal'] .slider__track {
+    @apply my-1.5 h-1 border-x-8;
+  }
+  .range-slider[data-orientation='horizontal'] .slider__thumb {
+    @apply size-4 bg-transparent;
+  }
+  .range-slider[data-orientation='horizontal'] .slider__thumb::after {
+    @apply size-4 rounded-full border-2 border-accent bg-overlay;
+  }
+
+  /* ---- Select menus ------------------------------------------------------
+     Pulled in from HeroUI's 24px pill radius to the panels' 12px. */
+  .select__popover {
+    @apply rounded-xl border border-border;
+  }
+  .select__popover .list-box-item {
+    @apply min-h-8 rounded-lg text-[12px];
+  }
+
+  /* Capsule track with a round knob */
+  .slider__track,
+  .slider__thumb,
+  .slider__thumb::after {
+    border-radius: 9999px;
+  }
+}
+
+/* Inter needs only a hair of negative tracking; the uppercase micro-labels
+   opt back out with positive tracking of their own. */
+html {
+  letter-spacing: -0.01em;
+}
+
+body {
+  overscroll-behavior: none;
+}
+
+/* Semibold carries headings — 700 is reserved for the figures */
+strong {
+  font-weight: 600;
+}
+
+/* Preserve the original keyboard focus treatment. */
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
