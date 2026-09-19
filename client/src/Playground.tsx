@@ -1,41 +1,28 @@
 import { Button } from "@heroui/react";
 import UtilizationCharts from "./UtilizationCharts";
 import EvAdoptionCard from "./EvAdoptionCard";
+import SiteReportCard from "./SiteReportCard";
 
 export default function Playground() {
   return (
-    <div className="flex items-stretch gap-4 bg-gray-100 p-4">
-      <div className="w-[378px] shrink-0">
-        <div className="h-full bg-white rounded-xl shadow-sm">
-          <div className="p-4 border-b border-gray-300 flex justify-between items-center">
-            <div className="flex flex-col">
-              <span className="text-md text-gray-800 font-semibold">
-                13332 Express Wy
-              </span>
-              <span className="text-sm text-gray-500">
-                Los Angeles, CA 90001
-              </span>
+    <div className="flex flex-col gap-4 bg-gray-100 p-4">
+      <div className="flex items-stretch gap-4">
+        <div className="w-[378px] shrink-0">
+          <div className="h-full bg-white rounded-xl shadow-sm">
+            <div className="p-4 border-b border-gray-300 flex justify-between items-center">
+              <div className="flex flex-col">
+                <span className="text-md text-gray-800 font-semibold">
+                  13332 Express Wy
+                </span>
+                <span className="text-sm text-gray-500">
+                  Los Angeles, CA 90001
+                </span>
+              </div>
+              <Button variant="outline" size="sm">
+                View Details
+              </Button>
             </div>
-            <Button variant="outline" size="sm">
-              View Details
-            </Button>
-          </div>
-          <div className="p-4 border-b border-gray-300 flex flex-col gap-4">
-            <div className="flex gap-4">
-              <div className="flex flex-col gap-1 w-1/3">
-                <p className="text-xs text-gray-400">Distance</p>
-                <p className="text-sm font-medium">0.5mi - 4 mins</p>
-              </div>
-              <div className="flex flex-col gap-1 w-1/3">
-                <p className="text-xs text-gray-400">Time</p>
-                <p className="text-sm font-medium">4 mins</p>
-              </div>
-              <div className="flex flex-col gap-1 w-1/3">
-                <p className="text-xs text-gray-400">Time</p>
-                <p className="text-sm font-medium">4 mins</p>
-              </div>
-            </div>
-            <div className="flex flex-col gap-2">
+            <div className="p-4 border-b border-gray-300 flex flex-col gap-4">
               <div className="flex gap-4">
                 <div className="flex flex-col gap-1 w-1/3">
                   <p className="text-xs text-gray-400">Distance</p>
@@ -50,28 +37,47 @@ export default function Playground() {
                   <p className="text-sm font-medium">4 mins</p>
                 </div>
               </div>
-              <div className="flex gap-4">
-                <div className="flex flex-col gap-1 w-1/3">
-                  <p className="text-xs text-gray-400">Distance</p>
-                  <p className="text-sm font-medium">0.5mi - 4 mins</p>
+              <div className="flex flex-col gap-2">
+                <div className="flex gap-4">
+                  <div className="flex flex-col gap-1 w-1/3">
+                    <p className="text-xs text-gray-400">Distance</p>
+                    <p className="text-sm font-medium">0.5mi - 4 mins</p>
+                  </div>
+                  <div className="flex flex-col gap-1 w-1/3">
+                    <p className="text-xs text-gray-400">Time</p>
+                    <p className="text-sm font-medium">4 mins</p>
+                  </div>
+                  <div className="flex flex-col gap-1 w-1/3">
+                    <p className="text-xs text-gray-400">Time</p>
+                    <p className="text-sm font-medium">4 mins</p>
+                  </div>
                 </div>
-                <div className="flex flex-col gap-1 w-1/3">
-                  <p className="text-xs text-gray-400">Time</p>
-                  <p className="text-sm font-medium">4 mins</p>
-                </div>
-                <div className="flex flex-col gap-1 w-1/3">
-                  <p className="text-xs text-gray-400">Time</p>
-                  <p className="text-sm font-medium">4 mins</p>
+                <div className="flex gap-4">
+                  <div className="flex flex-col gap-1 w-1/3">
+                    <p className="text-xs text-gray-400">Distance</p>
+                    <p className="text-sm font-medium">0.5mi - 4 mins</p>
+                  </div>
+                  <div className="flex flex-col gap-1 w-1/3">
+                    <p className="text-xs text-gray-400">Time</p>
+                    <p className="text-sm font-medium">4 mins</p>
+                  </div>
+                  <div className="flex flex-col gap-1 w-1/3">
+                    <p className="text-xs text-gray-400">Time</p>
+                    <p className="text-sm font-medium">4 mins</p>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="flex flex-col pt-5">
-              <UtilizationCharts />
+              <div className="flex flex-col pt-5">
+                <UtilizationCharts />
+              </div>
             </div>
           </div>
         </div>
+        <EvAdoptionCard className="w-[378px] shrink-0" />
       </div>
-      <EvAdoptionCard className="w-[378px] shrink-0" />
+      <div className="flex items-start gap-4">
+        <SiteReportCard className="w-[600px] shrink-0" />
+      </div>
     </div>
   );
 }
